@@ -56,3 +56,5 @@ ddns.aliyun.domain[0].record-type=A
 或访问：`http://{ip}:{port}/refresh?subDomainName=testv4`
 
 如果有多个域名，`key-id / key-secret` 自定义成一样的即可，暂不支持配置多个 `key-id / key-secret`
+
+deploy文件夹下为打包好的jar包
