@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -87,16 +88,22 @@ public class IpAddressServiceImpl implements IIpAddressService {
         }
     }
 
-    private DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord getDomainDnsRecord(DdnsToken.Domain domain) throws Exception {
+    private DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord getDomainDnsRecord(DdnsToken.Domain domain) {
         DescribeDomainRecordsRequest describeDomainRecordsRequest = new DescribeDomainRecordsRequest()
                 .setDomainName(domain.getDomainName())
                 .setRRKeyWord(domain.getSubDomainName())
                 .setType(domain.getRecordType().getType());
-        DescribeDomainRecordsResponse domainRecords = client.describeDomainRecords(describeDomainRecordsRequest);
-        List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> records = domainRecords.getBody().getDomainRecords().getRecord();
-        DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord record = records.get(0);
-        log.info("获取解析记录：{}", JSON.toJSONString(record));
-        return record;
+        DescribeDomainRecordsResponse domainRecords;
+        DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord recordsRecord = null;
+        try {
+            domainRecords = client.describeDomainRecords(describeDomainRecordsRequest);
+            List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> records = domainRecords.getBody().getDomainRecords().getRecord();
+            recordsRecord = records.get(0);
+            log.info("获取解析记录：{}", JSON.toJSONString(recordsRecord));
+        } catch (Exception e) {
+            log.error("Error while trying to describe domain records：{}.{}，exception {}", domain.getSubDomainName(), domain.getDomainName(), e.getMessage(), e);
+        }
+        return Optional.ofNullable(recordsRecord).orElseThrow(() -> new RuntimeException("获取解析记录信息时出现异常"));
     }
 
     private void updateDomainDnsRecord(DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord domainDnsRecord, String newIp) throws Exception {
