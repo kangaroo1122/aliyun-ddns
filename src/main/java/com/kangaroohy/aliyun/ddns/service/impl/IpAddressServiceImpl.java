@@ -5,6 +5,7 @@ import com.aliyun.alidns20150109.Client;
 import com.aliyun.alidns20150109.models.*;
 import com.aliyun.teaopenapi.models.Config;
 import com.kangaroohy.aliyun.ddns.config.DdnsToken;
+import com.kangaroohy.aliyun.ddns.entity.DomainListVO;
 import com.kangaroohy.aliyun.ddns.enums.RecordType;
 import com.kangaroohy.aliyun.ddns.service.IIpAddressService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -61,7 +63,12 @@ public class IpAddressServiceImpl implements IIpAddressService {
         DdnsToken.Domain domain = domainList.stream().filter(item -> item.getSubDomainName().equals(subDomainName)).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("未找到对应的二级域名配置信息：" + subDomainName));
         String currentIp = getIpAddress(domain);
-        this.updateDomainDnsRecord(this.getDomainDnsRecord(domain), currentIp);
+        DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord domainDnsRecord = this.getDomainDnsRecord(domain);
+        if (domainDnsRecord.getValue().equals(currentIp)) {
+            throw new RuntimeException(String.format("已是最新IP：%s，无需同步", currentIp));
+        } else {
+            this.updateDomainDnsRecord(domainDnsRecord, currentIp);
+        }
         return currentIp;
     }
 
@@ -86,6 +93,19 @@ public class IpAddressServiceImpl implements IIpAddressService {
                 }
             }
         }
+    }
+
+    @Override
+    public List<DomainListVO> findDomainList() {
+        List<DomainListVO> domainList = new ArrayList<>();
+        List<DdnsToken.Domain> domains = ddnsToken.getDomain();
+        domains.forEach(item ->
+                domainList.add(DomainListVO.builder()
+                        .domainName(item.getDomainName())
+                        .subDomainName(item.getSubDomainName())
+                        .recordType(item.getRecordType().getType())
+                        .build()));
+        return domainList;
     }
 
     private DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord getDomainDnsRecord(DdnsToken.Domain domain) {

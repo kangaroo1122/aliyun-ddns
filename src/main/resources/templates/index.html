@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>域名映射刷新</title>
+    <!-- 引入 element-ui 样式 -->
+    <link rel="stylesheet" href="webjars/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+<div id="app">
+    <el-table :data="domainList" border style="width: 60%;margin: auto;">
+        <el-table-column type="index" label="序号" width="50"></el-table-column>
+        <el-table-column prop="subDomainName" label="二级域名"></el-table-column>
+        <el-table-column prop="domainName" label="顶级域名"></el-table-column>
+        <el-table-column prop="recordType" label="记录类型"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="100" align="center">
+            <template slot-scope="scope">
+                <el-button @click="refreshRecord(scope.row.subDomainName)" type="text" icon="el-icon-refresh-right">刷新</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+</div>
+</body>
+<!-- 引入 vue -->
+<script src="webjars/vue/dist/vue.js"></script>
+<!-- 引入 element-ui 组件库 -->
+<script src="webjars/element-ui/lib/index.js"></script>
+<!-- 引入 axios 组件 -->
+<script src="webjars/axios/dist/axios.js"></script>
+<script src="../js/request.js"></script>
+<script src="../js/api.js"></script>
+<!-- 引入qs -->
+<script src="webjars/qs/dist/qs.js"></script>
+<script th:inline="JavaScript">
+    new Vue({
+        el: '#app',
+        data: {
+            domainList: []
+        },
+        created() {
+            let _this = this;
+            _this.getDomainList();
+        },
+        methods: {
+            getDomainList() {
+                api.getDomainList().then(resp => {
+                    this.domainList = resp.data
+                })
+            },
+            refreshRecord(domain) {
+                let data = {
+                    subDomainName: domain
+                }
+                api.refreshRecord(Qs.stringify(data)).then(resp => {
+                    ELEMENT.Message.success(resp.data);
+                })
+            }
+        }
+    })
+</script>
+</html>

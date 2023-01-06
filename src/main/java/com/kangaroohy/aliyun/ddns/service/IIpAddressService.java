@@ -1,5 +1,9 @@
 package com.kangaroohy.aliyun.ddns.service;
 
+import com.kangaroohy.aliyun.ddns.entity.DomainListVO;
+
+import java.util.List;
+
 /**
  * 类 IIpAddressService 功能描述：<br/>
  *
@@ -23,4 +27,11 @@ public interface IIpAddressService {
      * @throws Exception
      */
     void autoRefresh() throws Exception;
+
+    /**
+     * 解析列表
+     *
+     * @return
+     */
+    List<DomainListVO> findDomainList();
 }

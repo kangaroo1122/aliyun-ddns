@@ -20,12 +20,23 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <fastjson.version>2.0.22</fastjson.version>
         <alidns.version>3.0.1</alidns.version>
+
+        <!-- web界面 -->
+        <webjars-locator.version>0.45</webjars-locator.version>
+        <vue.version>2.6.14</vue.version>
+        <element-ui.version>2.15.10</element-ui.version>
+        <axios.version>0.26.1</axios.version>
+        <qs.version>6.11.0</qs.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,6 +56,43 @@
             <artifactId>alidns20150109</artifactId>
             <version>${alidns.version}</version>
         </dependency>
+
+        <!-- nekohtml -->
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>${nekohtml.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator</artifactId>
+            <version>${webjars-locator.version}</version>
+        </dependency>
+        <!-- vue -->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>vue</artifactId>
+            <version>${vue.version}</version>
+        </dependency>
+        <!-- element-ui -->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>element-ui</artifactId>
+            <version>${element-ui.version}</version>
+        </dependency>
+        <!-- axios -->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>axios</artifactId>
+            <version>${axios.version}</version>
+        </dependency>
+        <!-- qs库 对象转字符串用 -->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>qs</artifactId>
+            <version>${qs.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
