@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -28,11 +27,6 @@ public class DdnsController {
 
     @Autowired
     private IIpAddressService ipAddressService;
-
-    @GetMapping("/")
-    public ModelAndView index() {
-        return new ModelAndView("/index");
-    }
 
     @GetMapping("/domains")
     public ResponseEntity<RestResult<List<DomainListVO>>> domains() {
