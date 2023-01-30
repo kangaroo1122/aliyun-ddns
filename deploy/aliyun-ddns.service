@@ -1,0 +1,15 @@
+[Unit]
+Description=aliyun-ddns
+Documentation=https://www.kangaroohy.com
+After=syslog.target
+
+[Service]
+User=root
+ExecStart=/opt/aliyun-ddns/aliyun-ddns.jar start
+ExecReload=/opt/aliyun-ddns/aliyun-ddns.jar restart
+ExecStop=/opt/aliyun-ddns/aliyun-ddns.jar stop
+SuccessExitStatus=143
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
