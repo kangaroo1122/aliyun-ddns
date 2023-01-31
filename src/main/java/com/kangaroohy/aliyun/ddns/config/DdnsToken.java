@@ -36,14 +36,14 @@ public class DdnsToken {
     private String cron = "0 0/3 * * * ?";
 
     /**
-     * accessKeyId
+     * accessId
      */
-    private String accessKeyId;
+    private String accessId;
 
     /**
-     * accessKeySecret
+     * accessSecret
      */
-    private String accessKeySecret;
+    private String accessSecret;
 
     /**
      * 域名列表

@@ -143,8 +143,8 @@ public class IpAddressServiceImpl implements IIpAddressService {
 
     private Client createClient() throws Exception {
         Config config = new Config()
-                .setAccessKeyId(ddnsToken.getAccessKeyId())
-                .setAccessKeySecret(ddnsToken.getAccessKeySecret());
+                .setAccessKeyId(ddnsToken.getAccessId())
+                .setAccessKeySecret(ddnsToken.getAccessSecret());
         config.endpoint = "alidns.aliyuncs.com";
         return new Client(config);
     }

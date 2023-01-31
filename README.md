@@ -16,8 +16,8 @@ ddns:
   aliyun:
     ipv4-query-domain: https://4.ipw.cn # ipv4查询地址，默认 https://4.ipw.cn
     ipv6-query-domain: https://6.ipw.cn # ipv6查询地址，默认 https://6.ipw.cn
-    access-key-id: access-key-id # key-id
-    access-key-secret: access-key-secret # secret
+    access-id: access-key-id # key-id
+    access-secret: access-key-secret # secret
     cron: 0 0/3 * * * ? # 默认每三分钟刷新一次
     domain:
       - domain-name: aliyun.asia # 顶级域名
@@ -36,9 +36,9 @@ ddns.aliyun.ipv4-query-domain=https://4.ipw.cn
 # ipv6查询地址，默认 https://6.ipw.cn
 ddns.aliyun.ipv6-query-domain=https://6.ipw.cn
 # key-id
-ddns.aliyun.access-key-id=access-key-id
+ddns.aliyun.access-id=access-key-id
 # secret
-ddns.aliyun.access-key-secret=access-key-secret
+ddns.aliyun.access-secret=access-key-secret
 # 刷新频次，默认每三分钟刷新一次
 ddns.aliyun.cron=0 0/3 * * * ?
 # 顶级域名
@@ -55,6 +55,6 @@ ddns.aliyun.domain[0].record-type=A
 
 ![img.png](img.png)
 
-如果有多个域名，`key-id / key-secret` 自定义成一样的即可，暂不支持配置多个 `key-id / key-secret`
+暂不支持配置多个 `access-id / access-secret`
 
-deploy文件夹下为打包好的jar包
+deploy文件夹下为打包好的jar包 和 服务脚本
